@@ -28,14 +28,40 @@ body {
 a {
 	color: #00a5b6;
 	text-decoration: none;
-	border-bottom: 1px solid rgba(102, 101, 101, 0);
+	border-bottom: 1px solid rgba(180, 180, 180, 0);
 	transition: border-bottom 0.2s ease-out;
 }
 
 header nav a:hover, .content a:hover {
-	color: #004556;
-	border-bottom: 1px solid rgba(102, 101, 101, 0.5);
+	color: #fff;
+	border-bottom: 1px solid rgba(180, 180, 180, 0.5);
 }
+
+.loading-wrapper {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: #000;
+	z-index: 9999;
+}
+
+.loading {
+	left: -30px;
+	top: -30px;
+	position: absolute;
+	z-index: 100;
+	font-size: 42px;
+	color: #fff;
+	-webkit-animation:spin 1s linear infinite;
+    -moz-animation:spin 1s linear infinite;
+    animation:spin 1s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 
 
@@ -108,6 +134,10 @@ header nav a:hover, .content a:hover {
 	height: 50px;
 }
 
+.object-pool {
+	display: none;
+}
+
 
 
 /* - MENU - */
@@ -131,7 +161,7 @@ header nav a {
 }
 
 header nav a:hover, header nav a.active {
-	color: #666565;
+	color: #ffffff;
 }
 
 .menu-footer {
@@ -264,6 +294,58 @@ header .wrapper {
 	margin-top: 34px;
 }
 
+table.dataTable tbody tr.even, table.dataTable tbody tr.odd {
+	transition: background 0.2s ease-out;
+}
+
+table.dataTable tbody tr.even {
+	background: rgba(10, 10, 10, 0.6);
+}
+
+table.dataTable tbody tr.odd {
+	background: rgba(30, 30, 30, 0.6);
+}
+
+table.dataTable tbody tr.even:hover {
+	background: rgba(40, 40, 40, 1);
+}
+
+table.dataTable tbody tr.odd:hover {
+	background: rgba(40, 40, 40, 1);
+}
+
+.dataTables_info {
+	display: none;
+}
+
+.dataTables_filter {
+	position: fixed;
+	bottom: 0;
+	height: 50px;
+}
+
+.dataTables_filter input {
+	height: 50px;
+	padding: 10px;
+	font-size: 20px;
+}
+
+.dataTables_filter, .dataTables_filter input {
+	width: 100%;
+	margin: 0 !important;
+}
+
+.type .ru, .type .en, .name .ru, .name .en {
+	white-space: nowrap;
+}
+
+.ru, .en {
+	margin: 10px 0;
+}
+
+.en {
+	color: #999;
+}
 
 
 /* - FOOTER - */

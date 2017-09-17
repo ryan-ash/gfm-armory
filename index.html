@@ -1,25 +1,70 @@
 <!doctype html>
 <html>
 <head>
-  <title>[sandbox]</title>
+  <title>Exotic Armory</title>
   <link rel="icon" href="favicon.ico">
   <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link href="css/style.css" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="js/papaparse.min.js" type="text/javascript"></script>
+  <script src="js/exotic.js" type="text/javascript"></script>
+  <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
   <script src="js/index.js" type="text/javascript"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
   <!-- builder -->
-  <link href="css/builder.css" rel="stylesheet" type="text/css">
+  <!-- <link href="css/builder.css" rel="stylesheet" type="text/css"> -->
   <!-- <script src="js/builder.js" type="text/javascript"></script> -->
 </head>
 <body>
-  <div class="page">
-    <div class="wrapper">
-      <div class="content">
-        <div class="empty-space"></div>
-      </div>
+  <div class="loading-wrapper">
+    <div class="anchor">
+      <i class="loading fa fa-circle-o-notch" aria-hidden="true"></i>
     </div>
+  </div>
+  <div class="page">
+    <div class="content">
+      <table class="exotics">
+        <thead>
+          <tr>
+            <th>Icon</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <div class="empty-space"></div>
+  </div>
+  <div class="object-pool">
+    <img class="screenshot-image">
+    <table>
+        <tr class="item">
+          <td class="icon">
+            <img>
+          </td>
+          <td class="name">
+            <div class="ru"></div>
+            <div class="en"></div>
+          </td>
+          <td class="type">
+            <div class="ru">
+              <a class="filter-link" href="#"></a>
+            </div>
+            <div class="en">
+                <a class="filter-link" href="#"></a>
+            </div>
+          </td>
+          <td class="description">
+            <div class="ru"></div>
+            <div class="en"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </body>
 </html>
