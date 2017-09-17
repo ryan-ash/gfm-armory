@@ -344,7 +344,8 @@ table.dataTable tbody tr.odd:hover {
 }
 
 .en {
-	color: #999;
+	opacity: 0.8;
+	/* color: #999; */
 }
 
 
