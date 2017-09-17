@@ -322,6 +322,7 @@ table.dataTable tbody tr.odd:hover {
 	position: fixed;
 	bottom: 0;
 	height: 50px;
+	z-index: 9999;
 }
 
 .dataTables_filter input {
