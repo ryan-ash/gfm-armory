@@ -48,7 +48,9 @@ $(document).ready(function() {
             "paging": false,
             "fixedHeader": true,
             "initComplete": function(settings, json) {
-                $('input[type="search"]').appendTo(".dataTables_filter");
+                $search = $('input[type="search"]');
+                $search.appendTo(".dataTables_filter");
+                $search.attr("placeholder", "Search");
                 $(".dataTables_filter label").remove();
                 $loading.fadeOut();
                 $(".type a").click(function(e) {
