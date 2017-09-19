@@ -314,6 +314,10 @@ table.dataTable tbody tr.odd:hover {
 	background: rgba(40, 40, 40, 1);
 }
 
+table.dataTable tbody tr.overlay-present:hover {
+	cursor: pointer;
+}
+
 .dataTables_info {
 	display: none;
 }
@@ -340,11 +344,11 @@ table.dataTable tbody tr.odd:hover {
 	white-space: nowrap;
 }
 
-.ru, .en {
+tr .ru, tr .en {
 	margin: 10px 0;
 }
 
-.en {
+.en, .lore .ru {
 	color: #999;
 }
 
@@ -352,34 +356,91 @@ table.dataTable tbody tr.odd:hover {
 	color: #007565;
 }
 
+.item-overlay-wrapper, .close-item-overlay {
+	position: fixed;
+	display: none;
+}
 
-/* - FOOTER - */
+.item-overlay-wrapper {
+	top: 50%;
+	left: 50%;
+	z-index: 11000;
+}
 
-.page {
-	min-height: 100%;
-	height: auto !important;
+.close-item-overlay {
+	background: #000;
+	opacity: 0.6;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 10000;
+}
+
+.item-overlay {
+	background: #000;
+	opacity: 1;
+	position: absolute;
+	top: -216px;
+	width: 768px;
+	left: -384px;
+	height: 432px;
+	z-index: 11000;
+}
+
+.item-overlay-wrapper.lore-present .item-overlay {
+	left: -800px;
+	width: 1600px;	
+}
+
+.item-overlay .screenshot, .item-overlay .lore {
+	display: none;
+}
+
+.item-overlay-wrapper.screenshot-present .screenshot {
+	display: block;
+}
+
+.item-overlay-wrapper.lore-present .lore {
+	display: block;
+}
+
+.item-overlay .screenshot {
+	float: left;
+	width: 768px;
 	height: 100%;
-	margin: 0 auto -200px; /* FOOTER_HEIGHT */
+	position: relative;
 }
 
-footer, .push {
-	height: 200px; /* FOOTER_HEIGHT */
+.item-overlay .screenshot img {
+	max-height: 100%;
+	max-width: 100%;
+	opacity: 0;
+	transition: opacity 0.2s ease-out;
 }
 
-footer {
-	font-size: 17px;
-	color: #c9e2f7;
-	background-color: #243746;
+.item-overlay .screenshot img.active {
+	opacity: 1;
 }
 
-.image-footer {
-	left: 0px;
-	top: -40px;
-	width: 80px;
-	height: 80px;
-	background-image: url("../img/image-footer.png");
+.item-overlay .lore {
+	float: right;
+	text-align: justify;
+	width: 768px;
+	margin-right: 32px;
+	margin-top: 20px;
 }
 
-.copyright {
-	font-size: 15px;
+.item-overlay .lore .language .ru_switcher, .item-overlay .lore.original .language .en_switcher, .item-overlay .lore .en, .item-overlay .lore.original .ru {
+	display: none;
+}
+
+.item-overlay .lore.original .language .ru_switcher, .item-overlay .lore.original .en {
+	display: block;
+}
+
+.item-overlay .lore .language {
+	position: absolute;
+	left: 800px;
+	bottom: 20px;
 }
