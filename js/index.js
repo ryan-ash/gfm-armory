@@ -18,6 +18,9 @@ $(document).ready(function() {
     $item_lang_en = $item_overlay.find(".language .en_switcher");
     $item_lang_ru = $item_overlay.find(".language .ru_switcher");
     $close_item_overlay = $(".close-item-overlay");
+    $filter_any = $(".filter-any");
+    $filter_on = $(".filter-on");
+    $filter_off = $(".filter-off");
 
     bungie_url = "https://bungie.net";
     
@@ -40,7 +43,7 @@ $(document).ready(function() {
     }
 
     function build_item(id) {
-        item = armory[id];
+        var item = armory[id];
 
         $item.find(".name .ru").html(item.namerus);
         $item.find(".name .en").html(item.nameeng);
@@ -50,17 +53,26 @@ $(document).ready(function() {
         $item.find(".description .en").html(item.desceng);
         $item.find(".icon img").attr("src", bungie_url + item.icon);
 
-        if (item.screenshot == "null")
-            $item.attr("screenshot", "");
-        else
+        var lore_present = item.loreHash != "null" && item.loreHash in lore_dict;
+        var screenshot_present = item.screenshot != "null";
+
+        if (screenshot_present) {
+            $item.addClass("screenshot-present");
             $item.attr("screenshot", bungie_url + item.screenshot);
-
-        if (item.loreHash == "null" || !(item.loreHash in lore_dict))
-            $item.attr("lorehash", "");
-        else
+        } else {
+            $item.removeClass("screenshot-present");
+            $item.attr("screenshot", "");
+        }
+    
+        if (lore_present) {
+            $item.addClass("lore-present");
             $item.attr("lorehash", item.loreHash);
+        } else {
+            $item.removeClass("lore-present");
+            $item.attr("lorehash", "");
+        }
 
-        if (item.screenshot != "null" || item.loreHash != "null")
+        if (screenshot_present || lore_present)
             $item.addClass("overlay-present");
         else
             $item.removeClass("overlay-present");
@@ -158,7 +170,35 @@ $(document).ready(function() {
         e.preventDefault();
         $item_overlay.removeClass("original");
     });
-        
+
+    $filter_any.click(filter_any_handler);
+    $filter_on.click(filter_on_handler);
+    $filter_off.click(filter_off_handler);
+
+    function filter_any_handler() {
+        $this = $(this);
+        $this.removeClass("filter-any");
+        $this.addClass("filter-on");
+        $this.off("click").click(filter_on_handler);
+        apply_filter($this);
+    }
+
+    function filter_on_handler() {
+        $this = $(this);
+        $this.removeClass("filter-on");
+        $this.addClass("filter-off");
+        $this.off("click").click(filter_off_handler);
+        apply_filter($this);
+    }
+
+    function filter_off_handler() {
+        $this = $(this);
+        $this.removeClass("filter-off");
+        $this.addClass("filter-any");
+        $this.off("click").click(filter_any_handler);
+        apply_filter($this);
+    }
+
     function prepare_lore() {
         for (hash in lore) {
             lore_item = lore[hash];
@@ -167,6 +207,25 @@ $(document).ready(function() {
             lore_dict[lore_item["id"]] = {"en": lore_item["eng"], "ru": lore_item["rus"]};
         }
         loading_step(0);
+    }
+
+    function apply_filter($filter) {
+        var type = ($filter.attr("class").indexOf("lore") != -1) ? "lore" : "screenshot";
+        var filter_on = type + "-filter-on";
+        var filter_off = type + "-filter-off";
+        $content.removeClass(filter_on).removeClass(filter_off);
+        
+        if ($filter.hasClass("filter-any")) {
+            return;
+        }
+
+        if ($filter.hasClass("filter-on")) {
+            $content.addClass(filter_on);
+            return;
+        }
+
+        $content.removeClass(filter_on);
+        $content.addClass(filter_off);        
     }
 
     prepare_lore();

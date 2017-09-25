@@ -22,6 +22,7 @@ html, body {
 body {
 	text-align:center; 
 	background:#111;
+	background:linear-gradient(to bottom, #123, #000);
 	color:#fff;
 }
 
@@ -299,19 +300,19 @@ table.dataTable tbody tr.even, table.dataTable tbody tr.odd {
 }
 
 table.dataTable tbody tr.even {
-	background: rgba(10, 10, 10, 0.6);
+	background: #123;
 }
 
 table.dataTable tbody tr.odd {
-	background: rgba(30, 30, 30, 0.6);
+	background: #234;
 }
 
-table.dataTable tbody tr.even:hover {
-	background: rgba(40, 40, 40, 1);
+table.dataTable tbody tr:hover {
+	background: #457;
 }
 
-table.dataTable tbody tr.odd:hover {
-	background: rgba(40, 40, 40, 1);
+table.dataTable tbody tr:not(.overlay-present):hover {
+	background: #456;
 }
 
 table.dataTable tbody tr.overlay-present:hover {
@@ -323,21 +324,50 @@ table.dataTable tbody tr.overlay-present:hover {
 }
 
 .dataTables_filter {
-	position: fixed;
-	bottom: 0;
-	height: 50px;
+	position: absolute;
+    top: -50px;
+    height: 50px;
 	z-index: 9999;
+	width: -moz-available;
+    width: -webkit-fill-available;
+    margin-left: 285px;
+	left: 0;
 }
 
 .dataTables_filter input {
-	height: 50px;
-	padding: 10px;
-	font-size: 20px;
+	height: 29px;
+    padding: 0 15px;
+    font-size: 16px;
+    margin: 10px 10px;
+    border-radius: 15px;
+    background: linear-gradient(to right, #057, #023);
+	border: none;
+	width: -moz-available;
+	width: -webkit-fill-available;
+	color: #fff;
+	opacity: 0.7;
+	transition: opacity 0.2s ease-out;
 }
 
-.dataTables_filter, .dataTables_filter input {
-	width: 100%;
-	margin: 0 !important;
+.dataTables_filter input:hover {
+	opacity: 0.85;
+}
+
+.dataTables_filter input:focus {
+	outline: none;
+	opacity: 1;
+}
+
+.dataTables_filter input::-webkit-input-placeholder {
+	color: #fff;
+}
+
+.dataTables_filter input::-moz-placeholder {
+	color: #fff;
+}
+
+.dataTables_filter input::-webkit-search-cancel-button {
+	background: #fff;
 }
 
 .type .ru, .type .en, .name .ru, .name .en {
@@ -483,4 +513,61 @@ tr .ru, tr .en {
 
 .item-overlay .language:hover a, .item-overlay .language:hover a:hover {
 	color: #999;
+}
+
+.filters {
+	height: 50px;
+	padding-left: 5px;
+}
+
+.filter {
+	text-align: center;
+	float: left;
+	width: 130px;
+	padding: 5px 0;
+	margin: 10px 5px;
+	border-radius: 5px 15px 15px 15px;
+	box-shadow: 1px 1px 3px #000;
+	opacity: 0.7;
+	transition: background 0.2s ease-out, opacity 0.2s ease-out;
+	position: relative;
+}
+
+.filter-any {
+	background: #356;
+}
+
+.filter-on {
+	background: #373;
+}
+
+.filter-off {
+	background: #722;
+}
+
+.filter:hover {
+	cursor: pointer;
+	opacity: 1;
+}
+
+.filter i {
+	position: absolute;
+	top: 3px;
+    left: 4px;
+	font-size: 10px;
+	opacity: 0;
+	transition: opacity 0.2s ease-out;
+}
+
+.filter.filter-any .fa-asterisk,
+.filter.filter-on .fa-check,
+.filter.filter-off .fa-times {
+	opacity: 1;
+}
+
+.lore-filter-on .item:not(.lore-present),
+.lore-filter-off .item.lore-present,
+.screenshot-filter-on .item:not(.screenshot-present),
+.screenshot-filter-off .item.screenshot-present {
+	display: none;
 }
