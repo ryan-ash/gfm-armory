@@ -1,3 +1,23 @@
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var result = true;
+
+        result = result && (filter_lore == filter_any_flag || filter_lore == data[4]);
+        result = result && (filter_screenshot == filter_any_flag || filter_screenshot == data[5]);
+
+        return result;
+    }
+);
+
+var filter_any_flag = 0;
+var filter_on_flag = 1;
+var filter_off_flag = 2;
+
+var filter_lore = filter_any_flag;
+var filter_screenshot = filter_any_flag;
+
+var table;
+
 $(document).ready(function() {
     $.fn.insert = function(content) {
         var clone = content.clone();
@@ -57,17 +77,21 @@ $(document).ready(function() {
         var screenshot_present = item.screenshot != "null";
 
         if (screenshot_present) {
+            $item.find(".screenshot-present").html(filter_on_flag);
             $item.addClass("screenshot-present");
             $item.attr("screenshot", bungie_url + item.screenshot);
         } else {
+            $item.find(".screenshot-present").html(filter_off_flag);
             $item.removeClass("screenshot-present");
             $item.attr("screenshot", "");
         }
     
         if (lore_present) {
+            $item.find(".lore-present").html(filter_on_flag);
             $item.addClass("lore-present");
             $item.attr("lorehash", item.loreHash);
         } else {
+            $item.find(".lore-present").html(filter_off_flag);
             $item.removeClass("lore-present");
             $item.attr("lorehash", "");
         }
@@ -83,10 +107,14 @@ $(document).ready(function() {
     var ignore_item_overlay = false;
 
     function init_table() {
-        $table.DataTable({
+        table = $table.DataTable({
             "autoWidth": true,
             "paging": false,
             "fixedHeader": true,
+            "order": [[ 1, 'asc' ]],
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
             "initComplete": function(settings, json) {
                 $search = $('input[type="search"]');
                 $search.appendTo(".dataTables_filter");
@@ -149,10 +177,6 @@ $(document).ready(function() {
                     $close_item_overlay.fadeIn();
                 });
             },
-            "order": [[ 1, 'asc' ]],
-            "columnDefs": [
-                { "orderable": false, "targets": 0 }
-            ]
         });
     }
 
@@ -211,21 +235,27 @@ $(document).ready(function() {
 
     function apply_filter($filter) {
         var type = ($filter.attr("class").indexOf("lore") != -1) ? "lore" : "screenshot";
-        var filter_on = type + "-filter-on";
-        var filter_off = type + "-filter-off";
-        $content.removeClass(filter_on).removeClass(filter_off);
+
+        var result = 0;
         
         if ($filter.hasClass("filter-any")) {
-            return;
+            result = filter_any_flag;
+        } else if ($filter.hasClass("filter-on")) {
+            result = filter_on_flag;
+        } else if ($filter.hasClass("filter-off")) {
+            result = filter_off_flag;
         }
 
-        if ($filter.hasClass("filter-on")) {
-            $content.addClass(filter_on);
-            return;
+        switch (type) {
+            case "lore":
+                filter_lore = result;
+                break;
+            case "screenshot":
+                filter_screenshot = result;
+                break;
         }
 
-        $content.removeClass(filter_on);
-        $content.addClass(filter_off);        
+        table.draw();        
     }
 
     prepare_lore();
