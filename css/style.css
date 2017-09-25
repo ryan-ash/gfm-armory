@@ -378,7 +378,6 @@ tr .ru, tr .en {
 }
 
 .item-overlay {
-	background: #000;
 	opacity: 1;
 	position: absolute;
 	top: -216px;
@@ -405,11 +404,23 @@ tr .ru, tr .en {
 	display: block;
 }
 
+.item-overlay .background {
+	width: 100%;
+	height: 100%;
+	background: #000;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1000;
+}
+
 .item-overlay .screenshot {
-	float: left;
 	width: 768px;
 	height: 100%;
-	position: relative;
+	position: absolute;
+    left: 0;
+	top: 0;
+	z-index: 2000;
 }
 
 .item-overlay .screenshot img {
@@ -424,23 +435,52 @@ tr .ru, tr .en {
 }
 
 .item-overlay .lore {
-	float: right;
 	text-align: justify;
 	width: 768px;
-	margin-right: 32px;
-	margin-top: 20px;
+    position: absolute;
+    top: 20px;
+    right: 32px;
+    max-height: 100%;
+    margin-bottom: 40px;
+	overflow-y: auto;
+	z-index: 3000;
 }
 
-.item-overlay .lore .language .ru_switcher, .item-overlay .lore.original .language .en_switcher, .item-overlay .lore .en, .item-overlay .lore.original .ru {
+.original .item-overlay .language .ru_switcher, .item-overlay .language .en_switcher, .item-overlay .lore .en, .original .item-overlay .lore .ru, .item-overlay-wrapper:not(.lore-present) .item-overlay .language {
 	display: none;
 }
 
-.item-overlay .lore.original .language .ru_switcher, .item-overlay .lore.original .en {
+.original .item-overlay .language .en_switcher, .original .item-overlay .lore .en {
 	display: block;
 }
 
-.item-overlay .lore .language {
+.item-overlay .language {
 	position: absolute;
-	left: 800px;
-	bottom: 20px;
+    padding: 10px 11px 35px;
+    background: #000;
+	top: -11px;
+    right: -13px;
+    transform: rotate(60deg);
+	z-index: 500;
+	opacity: 0.2;
+	transition: opacity 0.2s ease-out;
+}
+
+.item-overlay .language:hover {
+	cursor: pointer;
+	opacity: 1;
+}
+
+.item-overlay .language a {
+	transform: rotate(-60deg);
+    position: absolute;
+    top: 4px;
+    right: 3px;
+	font-size: 12px;
+	color: #999;
+	text-transform: uppercase;
+}
+
+.item-overlay .language:hover a, .item-overlay .language:hover a:hover {
+	color: #999;
 }

@@ -149,14 +149,14 @@ $(document).ready(function() {
         $close_item_overlay.fadeOut();
     });
 
-    $item_lang_en.click(function(e) {
-        e.preventDefault();
-        $item_lore.addClass("original");
-    });
-
     $item_lang_ru.click(function(e) {
         e.preventDefault();
-        $item_lore.removeClass("original");
+        $item_overlay.addClass("original");
+    });
+
+    $item_lang_en.click(function(e) {
+        e.preventDefault();
+        $item_overlay.removeClass("original");
     });
         
     function prepare_lore() {
