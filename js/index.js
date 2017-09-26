@@ -327,12 +327,13 @@ $(document).ready(function() {
     $(window).keydown(function(e) {
         if (!item_opened)
             return;
-        e.preventDefault();
         switch (e.key) {
             case "ArrowUp":
+                e.preventDefault();
                 open_prev_available();
                 return;
             case "ArrowDown":
+                e.preventDefault();
                 open_next_available();
                 return;
         }
