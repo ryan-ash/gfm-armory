@@ -61,6 +61,8 @@ $(document).ready(function() {
 
     var lore_dict = {}
 
+    var present_items = []
+
     var $last_opened_item;
 
     var ignore_item_overlay = false;
@@ -82,6 +84,13 @@ $(document).ready(function() {
 
     function build_item(id) {
         var item = armory[id];
+
+        var element_already_exists = present_items.indexOf(item.nameeng) != -1;
+
+        if (element_already_exists)
+            return;
+
+        present_items.push(item.nameeng);
 
         $item.find(".name .ru").html(item.namerus);
         $item.find(".name .en").html(item.nameeng);
