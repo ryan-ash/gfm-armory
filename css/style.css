@@ -488,14 +488,11 @@ tr .en a {
     margin-top: 96px;
 }
 
-.original .item-overlay .language .ru_switcher,
-.item-overlay .language .en_switcher,
 .item-overlay .en,
 .original .item-overlay .ru {
 	display: none;
 }
 
-.original .item-overlay .language .en_switcher,
 .original .item-overlay .en {
 	display: block;
 }
@@ -518,23 +515,34 @@ tr .en a {
 	transition-property: opacity, font-size;
 }
 
+.item-overlay .language i {
+	transition: opacity 0.2s ease-out;
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+}
+
 .item-overlay .language:hover {
 	cursor: pointer;
 	opacity: 0.9;
 	font-size: 40px;
 }
 
-.item-overlay .language a {
-    position: absolute;
-    top: 4px;
-    right: 3px;
-	font-size: 12px;
-	color: #999;
-	text-transform: uppercase;
+.original .item-overlay .language .ru_switcher,
+.item-overlay .language .en_switcher {
+	opacity: 0;
 }
 
-.item-overlay .language:hover a, .item-overlay .language:hover a:hover {
-	color: #999;
+.original .item-overlay .language .en_switcher {
+	opacity: 1;
+}
+
+.item-overlay .language .ru_switcher {
+	color: #FC4545;
+}
+
+.item-overlay .language .en_switcher {
+	color: #5D5DFF;
 }
 
 .filters {

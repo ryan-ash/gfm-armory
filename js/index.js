@@ -311,16 +311,6 @@ $(document).ready(function() {
         $item_overlay.toggleClass("original");
     });
 
-    $item_lang_ru.click(function(e) {
-        e.preventDefault();
-        $item_overlay.addClass("original");
-    });
-
-    $item_lang_en.click(function(e) {
-        e.preventDefault();
-        $item_overlay.removeClass("original");
-    });
-
     $next_item_overlay.click(open_next_available);
     $previous_item_overlay.click(open_prev_available);
 
