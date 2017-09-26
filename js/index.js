@@ -37,9 +37,8 @@ $(document).ready(function() {
     var $item_lore_ru = $item_lore.find(".ru");
     var $item_screenshot = $item_overlay.find(".screenshot");
     var $item_screenshot_loading = $item_screenshot.find(".loading");
-    var $item_lang = $item_overlay.find(".language");
-    var $item_lang_en = $item_overlay.find(".language .en_switcher");
-    var $item_lang_ru = $item_overlay.find(".language .ru_switcher");
+    var $item_lang_button = $item_overlay.find(".language");
+    var $item_details_button = $item_overlay.find(".details");
     var $item_icon = $item_overlay.find(".icon");
     var $item_name_en = $item_overlay.find(".name .en");
     var $item_name_ru = $item_overlay.find(".name .ru");
@@ -306,9 +305,14 @@ $(document).ready(function() {
         $item_overlay_background.fadeOut();
     });
 
-    $item_lang.click(function(e) {
+    $item_lang_button.click(function(e) {
         e.preventDefault();
         $item_overlay.toggleClass("original");
+    });
+
+    $item_details_button.click(function(e) {
+        e.preventDefault();
+        $item_overlay.toggleClass("hide-details");
     });
 
     $next_item_overlay.click(open_next_available);

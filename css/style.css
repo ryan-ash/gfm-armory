@@ -497,12 +497,11 @@ tr .en a {
 	display: block;
 }
 
-.item-overlay .language {
+.icon-button-holder {
 	position: fixed;
 	bottom: 0;
-	right: 0;
-	width: 50px;
-	height: 50px;
+	width: 70px;
+	height: 70px;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -515,26 +514,48 @@ tr .en a {
 	transition-property: opacity, font-size;
 }
 
-.item-overlay .language i {
+.item-overlay .language {
+	right: 0;	
+}
+
+.item-overlay .details {
+	right: 40px;
+}
+
+.icon-button-holder i {
 	transition: opacity 0.2s ease-out;
 	position: absolute;
 	right: 20px;
 	bottom: 20px;
 }
 
-.item-overlay .language:hover {
+.icon-button-holder:hover {
 	cursor: pointer;
 	opacity: 0.9;
 	font-size: 40px;
 }
 
 .original .item-overlay .language .ru_switcher,
-.item-overlay .language .en_switcher {
+.item-overlay .language .en_switcher,
+.hide-details .item-overlay .details .show,
+.item-overlay .details .hide {
 	opacity: 0;
 }
 
-.original .item-overlay .language .en_switcher {
+.original .item-overlay .language .en_switcher,
+.hide-details .item-overlay .details .hide {
 	opacity: 1;
+}
+
+.hide-details .item-overlay .lore,
+.hide-details .item-overlay .info {
+	opacity: 0;
+}
+
+.item-overlay .lore,
+.item-overlay .info {
+	opacity: 1;
+	transition: opacity 0.2s ease-out;
 }
 
 .item-overlay .language .ru_switcher {
@@ -543,6 +564,14 @@ tr .en a {
 
 .item-overlay .language .en_switcher {
 	color: #5D5DFF;
+}
+
+.item-overlay .details .show {
+	color: #8B8B8B;
+}
+
+.item-overlay .details .hide {
+	color: #56C956;
 }
 
 .filters {
