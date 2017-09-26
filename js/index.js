@@ -24,30 +24,49 @@ $(document).ready(function() {
         clone.appendTo(this);
     }
 
-    $item = $(".item");
-    $loading = $(".loading-wrapper");
-    $table = $(".exotics");
-    $content = $(".exotics tbody");
-    $screenshot = $(".screenshot-image");
-    $item_overlay = $(".item-overlay-wrapper");
-    $item_lore = $item_overlay.find(".lore");
-    $item_lore_en = $item_lore.find(".en");
-    $item_lore_ru = $item_lore.find(".ru");
-    $item_screenshot = $item_overlay.find(".screenshot");
-    $item_screenshot_loading = $item_screenshot.find(".loading");
-    $item_lang_en = $item_overlay.find(".language .en_switcher");
-    $item_lang_ru = $item_overlay.find(".language .ru_switcher");
-    $close_item_overlay = $(".close-item-overlay");
-    $filter_any = $(".filter-any");
-    $filter_on = $(".filter-on");
-    $filter_off = $(".filter-off");
+    var $item = $(".item");
+    var $loading = $(".loading-wrapper");
+    var $table = $(".exotics");
+    var $content = $(".exotics tbody");
+    var $screenshot = $(".screenshot-image");
 
-    bungie_url = "https://bungie.net";
+    var $item_overlay = $(".item-overlay-wrapper");
+    var $item_overlay_background = $(".item-overlay-background");
+    var $item_lore = $item_overlay.find(".lore");
+    var $item_lore_en = $item_lore.find(".en");
+    var $item_lore_ru = $item_lore.find(".ru");
+    var $item_screenshot = $item_overlay.find(".screenshot");
+    var $item_screenshot_loading = $item_screenshot.find(".loading");
+    var $item_lang = $item_overlay.find(".language");
+    var $item_lang_en = $item_overlay.find(".language .en_switcher");
+    var $item_lang_ru = $item_overlay.find(".language .ru_switcher");
+    var $item_icon = $item_overlay.find(".icon");
+    var $item_name_en = $item_overlay.find(".name .en");
+    var $item_name_ru = $item_overlay.find(".name .ru");
+    var $item_type_en = $item_overlay.find(".type .en");
+    var $item_type_ru = $item_overlay.find(".type .ru");
+    var $item_description_en = $item_overlay.find(".description .en");
+    var $item_description_ru = $item_overlay.find(".description .ru");
+    var $close_item_overlay = $(".close-overlay");
+    var $next_item_overlay = $item_overlay.find(".next");
+    var $previous_item_overlay = $item_overlay.find(".previous");
     
-    timeout = 5;
-    length = armory.length;
+    var $filter_any = $(".filter-any");
+    var $filter_on = $(".filter-on");
+    var $filter_off = $(".filter-off");
 
-    lore_dict = {}
+    var bungie_url = "https://bungie.net";
+    
+    var timeout = 5;
+    var length = armory.length;
+
+    var lore_dict = {}
+
+    var $last_opened_item;
+
+    var ignore_item_overlay = false;
+
+    var item_opened = false;
 
     function loading_step(i) {
         if (i >= length) {
@@ -104,8 +123,6 @@ $(document).ready(function() {
         $content.insert($item);
     }
 
-    var ignore_item_overlay = false;
-
     function init_table() {
         table = $table.DataTable({
             "autoWidth": true,
@@ -115,89 +132,86 @@ $(document).ready(function() {
             "columnDefs": [
                 { "orderable": false, "targets": 0 }
             ],
-            "initComplete": function(settings, json) {
-                $search = $('input[type="search"]');
-                $search.appendTo(".dataTables_filter");
-                $search.attr("placeholder", "Search");
-                $(".dataTables_filter label").remove();
-                $loading.fadeOut();
-                
-                $(".type a").click(function(e) {
-                    e.preventDefault();
-                    $(".dataTables_filter input").val($(this).html());
-                    $(".dataTables_filter input").trigger("search");
-                    ignore_item_overlay = true;
-                });
-
-                $("tr.overlay-present").click(function(e) {
-                    if (ignore_item_overlay) {
-                        ignore_item_overlay = false;
-                        return;
-                    }
-
-                    e.preventDefault();
-
-                    lorehash = $(this).attr("lorehash");
-                    screenshot_url = $(this).attr("screenshot");
-
-                    lore_present = lorehash != "";
-                    screenshot_present = screenshot_url != "";
-
-                    if (lore_present) {
-                        $item_overlay.addClass("lore-present");
-                        $item_lore_en.html(lore_dict[lorehash]["en"]);
-                        $item_lore_ru.html(lore_dict[lorehash]["ru"]);
-                    } else {
-                        $item_overlay.removeClass("lore-present");
-                    }
-
-                    if (screenshot_present) {
-                        $item_overlay.addClass("screenshot-present");
-                        $screenshot.attr("src", screenshot_url);
-                        $item_screenshot_img = $item_screenshot.find("img");
-                        if ($item_screenshot_img)
-                            $item_screenshot_img.remove();
-
-                        $item_screenshot.insert($screenshot);
-
-                        $item_screenshot_loading.fadeIn('fast');
-                        $item_screenshot_img = $item_screenshot.find("img");
-                        $item_screenshot_img.on("load", function() {
-                            $item_screenshot_loading.fadeOut('fast');
-                            $item_screenshot_img.addClass("active");
-                        });
-                    } else {
-                        $item_overlay.removeClass("screenshot-present");
-                        $item_screenshot_img = $item_screenshot.find("img");
-                        if ($item_screenshot_img)
-                            $item_screenshot_img.remove();
-                    }
-
-                    $item_overlay.fadeIn();
-                    $close_item_overlay.fadeIn();
-                });
-            },
+            "initComplete": finish_table_handler,
         });
     }
 
-    $close_item_overlay.click(function(e) {
-        $item_overlay.fadeOut();
-        $close_item_overlay.fadeOut();
-    });
+    function finish_table_handler(settings, json) {
+        $search = $('input[type="search"]');
+        $search.appendTo(".dataTables_filter");
+        $search.attr("placeholder", "Search");
+        $(".dataTables_filter label").remove();
+        $loading.fadeOut();
+        
+        $(".type a").click(function(e) {
+            e.preventDefault();
+            $(".dataTables_filter input").val($(this).html());
+            $(".dataTables_filter input").trigger("search");
+            ignore_item_overlay = true;
+        });
 
-    $item_lang_ru.click(function(e) {
+        $("tr.overlay-present").click(open_overlay_handler);
+    }
+
+    function open_overlay_handler(e) {
+        if (ignore_item_overlay) {
+            ignore_item_overlay = false;
+            return;
+        }
+
         e.preventDefault();
-        $item_overlay.addClass("original");
-    });
 
-    $item_lang_en.click(function(e) {
-        e.preventDefault();
-        $item_overlay.removeClass("original");
-    });
+        $this = $(this);
+        $last_opened_item = $this;
 
-    $filter_any.click(filter_any_handler);
-    $filter_on.click(filter_on_handler);
-    $filter_off.click(filter_off_handler);
+        $item_icon.css("background-image", "url(" + $this.find(".icon img").attr("src") + ")");
+        $item_name_en.html($this.find(".name .en").html());
+        $item_name_ru.html($this.find(".name .ru").html());
+        $item_type_en.html($this.find(".type .en a").html());
+        $item_type_ru.html($this.find(".type .ru a").html());
+        $item_description_en.html($this.find(".description .en").html());
+        $item_description_ru.html($this.find(".description .ru").html());
+
+        lorehash = $this.attr("lorehash");
+        screenshot_url = $this.attr("screenshot");
+
+        lore_present = lorehash != "";
+        screenshot_present = screenshot_url != "";
+
+        if (lore_present) {
+            $item_overlay.addClass("lore-present");
+            $item_lore_en.html(lore_dict[lorehash]["en"]);
+            $item_lore_ru.html(lore_dict[lorehash]["ru"]);
+        } else {
+            $item_overlay.removeClass("lore-present");
+        }
+
+        if (screenshot_present) {
+            $item_overlay.addClass("screenshot-present");
+            $screenshot.attr("src", screenshot_url);
+            $item_screenshot_img = $item_screenshot.find("img");
+            if ($item_screenshot_img)
+                $item_screenshot_img.remove();
+
+            $item_screenshot.insert($screenshot);
+
+            $item_screenshot_loading.fadeIn('fast');
+            $item_screenshot_img = $item_screenshot.find("img");
+            $item_screenshot_img.on("load", function() {
+                $item_screenshot_loading.fadeOut('fast');
+                $item_screenshot_img.addClass("active");
+            });
+        } else {
+            $item_overlay.removeClass("screenshot-present");
+            $item_screenshot_img = $item_screenshot.find("img");
+            if ($item_screenshot_img)
+                $item_screenshot_img.remove();
+        }
+
+        item_opened = true;
+        $item_overlay.css("display", "flex").hide().fadeIn();
+        $item_overlay_background.fadeIn();
+    }
 
     function filter_any_handler() {
         $this = $(this);
@@ -257,6 +271,76 @@ $(document).ready(function() {
 
         table.draw();        
     }
+
+    function open_next_available() {
+        $next_item = $last_opened_item.next();
+        
+        if (!$next_item.length)
+            $next_item = $content.find("tr:first-child");
+        
+        $last_opened_item = $next_item;
+        
+        if (!$next_item.hasClass("overlay-present"))
+            return open_next_available();
+        
+        $next_item.click();
+    }
+
+    function open_prev_available() {
+        $prev_item = $last_opened_item.prev();
+        
+        if (!$prev_item.length)
+            $prev_item = $content.find("tr:last-child");
+        
+        $last_opened_item = $prev_item;
+
+        if (!$prev_item.hasClass("overlay-present"))
+            return open_prev_available();
+        
+        $prev_item.click();
+    }
+
+    $close_item_overlay.click(function(e) {
+        item_opened = false;
+        $item_overlay.fadeOut();
+        $item_overlay_background.fadeOut();
+    });
+
+    $item_lang.click(function(e) {
+        e.preventDefault();
+        $item_overlay.toggleClass("original");
+    });
+
+    $item_lang_ru.click(function(e) {
+        e.preventDefault();
+        $item_overlay.addClass("original");
+    });
+
+    $item_lang_en.click(function(e) {
+        e.preventDefault();
+        $item_overlay.removeClass("original");
+    });
+
+    $next_item_overlay.click(open_next_available);
+    $previous_item_overlay.click(open_prev_available);
+
+    $(window).keydown(function(e) {
+        if (!item_opened)
+            return;
+        e.preventDefault();
+        switch (e.key) {
+            case "ArrowUp":
+                open_prev_available();
+                return;
+            case "ArrowDown":
+                open_next_available();
+                return;
+        }
+    });
+
+    $filter_any.click(filter_any_handler);
+    $filter_on.click(filter_on_handler);
+    $filter_off.click(filter_off_handler);
 
     prepare_lore();
 });

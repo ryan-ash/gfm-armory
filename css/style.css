@@ -139,8 +139,6 @@ header nav a:hover, .content a:hover {
 	display: none;
 }
 
-
-
 /* - MENU - */
 
 nav a {
@@ -379,30 +377,35 @@ tr .ru, tr .en {
 	margin: 10px 0;
 }
 
-.en, .lore .ru {
+tr .en {
 	color: #999;
 }
 
-.ru a {
+tr .ru a {
 	color: #0bd;	
 }
 
-.en a {
+tr .en a {
 	color: #0ca;
 }
 
-.item-overlay-wrapper, .close-item-overlay {
+.item-overlay-wrapper, .item-overlay-background {
 	position: fixed;
 	display: none;
 }
 
 .item-overlay-wrapper {
-	top: 50%;
-	left: 50%;
 	z-index: 11000;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    align-items: center;
+	justify-content: center;
+	overflow: hidden;
 }
 
-.close-item-overlay {
+.item-overlay-background {
 	background: #000;
 	opacity: 0.6;
 	left: 0;
@@ -412,19 +415,21 @@ tr .ru, tr .en {
 	z-index: 10000;
 }
 
-.item-overlay {
-	opacity: 1;
-	position: absolute;
-	top: -216px;
-	width: 768px;
-	left: -384px;
-	height: 432px;
-	z-index: 11000;
+.item-overlay-column {
+	width: 1280px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: center;
 }
 
-.item-overlay-wrapper.lore-present .item-overlay {
-	left: -800px;
-	width: 1600px;	
+.item-overlay {
+	width: 1280px;
+	height: 720px;
+	z-index: 11000;
+	position: relative;
+	background: #000;	
 }
 
 .item-overlay .screenshot, .item-overlay .lore {
@@ -450,12 +455,8 @@ tr .ru, tr .en {
 }
 
 .item-overlay .screenshot {
-	width: 768px;
+	width: 100%;
 	height: 100%;
-	position: absolute;
-    left: 0;
-	top: 0;
-	z-index: 2000;
 }
 
 .item-overlay .screenshot img {
@@ -471,43 +472,59 @@ tr .ru, tr .en {
 
 .item-overlay .lore {
 	text-align: justify;
-	width: 768px;
+    width: 100%;
     position: absolute;
-    top: 20px;
-    right: 32px;
+    bottom: 0px;
+    left: 0;
     max-height: 100%;
-    margin-bottom: 40px;
-	overflow-y: auto;
+    overflow-y: auto;
 	z-index: 3000;
 }
 
-.original .item-overlay .language .ru_switcher, .item-overlay .language .en_switcher, .item-overlay .lore .en, .original .item-overlay .lore .ru, .item-overlay-wrapper:not(.lore-present) .item-overlay .language {
+.item-overlay .lore * {
+	padding: 20px;
+    text-shadow: 1px 1px 3px #000;
+    background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8));
+    margin-top: 96px;
+}
+
+.original .item-overlay .language .ru_switcher,
+.item-overlay .language .en_switcher,
+.item-overlay .en,
+.original .item-overlay .ru {
 	display: none;
 }
 
-.original .item-overlay .language .en_switcher, .original .item-overlay .lore .en {
+.original .item-overlay .language .en_switcher,
+.original .item-overlay .en {
 	display: block;
 }
 
 .item-overlay .language {
-	position: absolute;
-    padding: 10px 11px 35px;
-    background: #000;
-	top: -11px;
-    right: -13px;
-    transform: rotate(60deg);
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 	z-index: 500;
-	opacity: 0.2;
-	transition: opacity 0.2s ease-out;
+	opacity: 0.5;
+	font-size: 30px;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-out;
+	transition-property: opacity, font-size;
 }
 
 .item-overlay .language:hover {
 	cursor: pointer;
-	opacity: 1;
+	opacity: 0.9;
+	font-size: 40px;
 }
 
 .item-overlay .language a {
-	transform: rotate(-60deg);
     position: absolute;
     top: 4px;
     right: 3px;
@@ -579,4 +596,167 @@ tr .ru, tr .en {
 
 .hidden {
 	display: none;
+}
+
+.info {
+	position: absolute;
+    top: 0;
+    left: 0;
+    text-align: justify;
+    display: flex;
+    flex-direction: row;
+	align-items: stretch;
+	flex-wrap: nowrap;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+    transition: opacity 0.2s ease-out;
+	z-index: 3000;
+	opacity: 0.8;
+}
+
+.info:hover {
+	/* opacity: 1; */
+}
+
+.info > div {
+	margin: 20px 0 20px 20px;	
+}
+
+.info .icon {
+	background-size: cover;
+    width: 64px;
+    height: 64px;
+	flex-grow: 0;
+	flex-shrink: 0;
+    position: relative;
+    box-shadow: 1px 1px 3px #333;
+}
+
+td.icon {
+	padding: 0 !important;
+}
+
+td.icon .img-wrapper {
+	position: relative;
+	width: 96px;
+	height: 96px;
+	margin: 8px 10px 8px 15px;
+	overflow: hidden;
+}
+
+.info .icon, .icon .shadow, .icon .img-wrapper {
+	border-radius: 15px;
+}
+
+.shadow {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: radial-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+	opacity: 0.5;
+	transition: opacity 0.2s ease-out;
+}
+
+tr:hover .shadow, .info:hover .shadow {
+	opacity: 0.1;
+}
+
+tr img {
+	width: 96px;
+	height: 96px;
+	transition: 0.2s ease-out;
+}
+
+tr:hover img {
+	width: 106px;
+	height: 106px;
+	margin-left: -5px;
+	margin-top: -5px;
+}
+
+.info .description {
+	flex-grow: 1;
+	color: #999;
+	margin-right: 20px;
+}
+
+.info .name {
+    flex-grow: 0;
+	width: 300px;
+	color: #fff;
+}
+
+.info .type {
+	color: #0bd;
+}
+
+.left-shadow {
+	background: linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0));
+}
+
+.right-shadow {
+	background: linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0));
+}
+
+.close-overlay {
+	flex-grow: 1;
+	height: 102%;
+	position: relative;
+}
+
+.close-overlay div {
+	width: 100%;
+	height: 100%;
+	opacity: 0.5;
+	transition: opacity 0.2s ease-out;
+}
+
+.close-overlay:hover {
+	cursor: pointer;
+}
+
+.close-overlay:hover div {
+	opacity: 0.1;	
+}
+
+.close-overlay i {
+	opacity: 0;
+	transition: opacity 0.2s ease-out;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	font-size: 30px;
+	margin-left: -12px;
+	margin-top: -15px;
+}
+
+.close-overlay:hover i {
+	opacity: 0.5;
+}
+
+.arrow {
+	position: relative;
+	width: 100%;
+	flex-grow: 1;
+}
+
+.arrow:hover {
+	cursor: pointer;
+}
+
+.arrow i {
+	opacity: 0.2;
+	transition: opacity 0.2s ease-out;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	font-size: 30px;
+	margin-left: -14px;
+	margin-top: -15px;
+}
+
+.arrow:hover i {
+	opacity: 0.5;
 }
