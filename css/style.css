@@ -415,8 +415,14 @@ tr .en a {
 	z-index: 10000;
 }
 
+.item-overlay-column, .item-overlay {
+	width: 1280px;	
+	transition-property: width, height;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-out;
+}
+
 .item-overlay-column {
-	width: 1280px;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -425,11 +431,46 @@ tr .en a {
 }
 
 .item-overlay {
-	width: 1280px;
 	height: 720px;
 	z-index: 11000;
 	position: relative;
-	background: #000;	
+	background: #000;
+}
+
+@media all and (max-width: 1400px) {
+	.item-overlay-column, .item-overlay {
+		width: 1000px;
+	}
+	.item-overlay {
+		height: 562px;
+	}
+}
+
+@media all and (max-height: 800px) {
+	.item-overlay-column, .item-overlay {
+		width: 1000px;
+	}
+	.item-overlay {
+		height: 562px;
+	}
+}
+
+@media all and (max-width: 1150px) {
+	.item-overlay-column, .item-overlay {
+		width: 800px;
+	}
+	.item-overlay {
+		height: 450px;
+	}
+}
+
+@media all and (max-height: 680px) {
+	.item-overlay-column, .item-overlay {
+		width: 800px;
+	}
+	.item-overlay {
+		height: 450px;
+	}
 }
 
 .item-overlay .screenshot, .item-overlay .lore {
@@ -506,7 +547,7 @@ tr .en a {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	z-index: 500;
+	z-index: 5000;
 	opacity: 0.5;
 	font-size: 30px;
 	transition-duration: 0.2s;
