@@ -293,7 +293,7 @@ header .wrapper {
 	margin-top: 34px;
 }
 
-table.dataTable tbody tr.even, table.dataTable tbody tr.odd {
+table.dataTable tbody tr {
 	transition: background 0.2s ease-out;
 }
 
@@ -306,11 +306,11 @@ table.dataTable tbody tr.odd {
 }
 
 table.dataTable tbody tr:hover {
-	background: #457;
+	background: #344058;
 }
 
 table.dataTable tbody tr:not(.overlay-present):hover {
-	background: #456;
+	background: #3E4C5A;
 }
 
 table.dataTable tbody tr.overlay-present:hover {
