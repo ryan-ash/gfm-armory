@@ -133,7 +133,7 @@ $(document).ready(function() {
 
     function init_table() {
         table = $table.DataTable({
-            "autoWidth": true,
+            "autoWidth": false,
             "paging": false,
             "fixedHeader": true,
             "order": [[ 1, 'asc' ]],
